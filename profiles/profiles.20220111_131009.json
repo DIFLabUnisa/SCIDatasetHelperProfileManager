@@ -69,7 +69,7 @@
             "output_formats": [
                 "jpeg"
             ],
-            "active": false
+            "active": true
         },
         {
             "id": 4,
@@ -86,7 +86,7 @@
             "output_formats": [
                 "jpeg"
             ],
-            "active": false
+            "active": true
         },
         {
             "id": 5,
@@ -103,7 +103,7 @@
             "output_formats": [
                 "jpeg"
             ],
-            "active": false
+            "active": true
         },
         {
             "id": 6,
@@ -120,7 +120,7 @@
             "output_formats": [
                 "raw"
             ],
-            "active": false
+            "active": true
         },
         {
             "id": 7,
@@ -137,7 +137,7 @@
             "output_formats": [
                 "raw"
             ],
-            "active": false
+            "active": true
         },
         {
             "id": 8,
@@ -154,7 +154,7 @@
             "output_formats": [
                 "raw"
             ],
-            "active": false
+            "active": true
         }
     ],
     "default_profile": 2

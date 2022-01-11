@@ -19,11 +19,11 @@ profiles: SDCHProfiles = SDCHProfiles(default_profile=-1, profiles=[])
 def get_description() -> str:
     ret = ""
     for line in stdin:
-        ret+=line
+        ret += line
     return ret
 
 
-def get_camera_position(current_position: CameraPositions|None) -> CameraPositions:
+def get_camera_position(current_position: CameraPositions | None) -> CameraPositions:
     idx = 0
     positions: [CameraPositions] = []
     if current_position is not None:
@@ -39,7 +39,7 @@ def get_camera_position(current_position: CameraPositions|None) -> CameraPositio
     return positions[p]
 
 
-def get_camera_types(current_types:[CameraTypes])->[CameraTypes]:
+def get_camera_types(current_types: [CameraTypes]) -> [CameraTypes]:
     idx = 0
     prev = "".join([c.name for c in current_types])
     print(f"{idx}) Conferma attuale [{prev}]")
@@ -58,7 +58,7 @@ def get_camera_types(current_types:[CameraTypes])->[CameraTypes]:
     return [types[i] for i in selections]
 
 
-def get_output_formats(current_formats:[OutputFormats])->[OutputFormats]:
+def get_output_formats(current_formats: [OutputFormats]) -> [OutputFormats]:
     idx = 0
     prev = "".join([c.name for c in current_formats])
     print(f"{idx}) Conferma attuale [{prev}]")
@@ -77,7 +77,7 @@ def get_output_formats(current_formats:[OutputFormats])->[OutputFormats]:
     return [types[i] for i in selections]
 
 
-def add_or_edit_profile(original_profile: SDCHProfile|None) -> SDCHProfile:
+def add_or_edit_profile(original_profile: SDCHProfile | None) -> SDCHProfile:
     global max_id
     if original_profile is None:
         original_profile = SDCHProfile()
@@ -115,7 +115,7 @@ def add_or_edit_profile(original_profile: SDCHProfile|None) -> SDCHProfile:
 
 
 def print_profile_names(p: SDCHProfile):
-    print(f"** ID: {p.id} - Nome: {p.name} **")
+    print(f"** ID: {p.id} - Nome: {p.name} - Attivo {'SI' if p.active else 'NO'}**")
 
 
 def print_profile(p: SDCHProfile):
@@ -161,10 +161,10 @@ def edit_profile():
         input1 = int(input1)
         loc_profiles = profiles.profiles
         filtered = list(filter(lambda profile: profile_filter_by_id(profile, input1), loc_profiles))
-        if len(filtered)>0:
+        if len(filtered) > 0:
             old_profile = filtered[0]
             new_profile = add_or_edit_profile(old_profile)
-            profiles.profiles = [new_profile if x.id==old_profile.id else x for x in profiles.profiles]
+            profiles.profiles = [new_profile if x.id == old_profile.id else x for x in profiles.profiles]
     else:
         add_profile()
 
@@ -182,7 +182,7 @@ def select_default_profile():
     input1 = int(input1)
     loc_profiles = profiles.profiles
     filtered = list(filter(lambda profile: profile_filter_by_id(profile, input1), loc_profiles))
-    if len(filtered)>0:
+    if len(filtered) > 0:
         profile = filtered[0]
         profiles.default_profile = profile.id
 
@@ -193,7 +193,7 @@ def profiles_list():
         for prof in p.profiles:
             print_profile_names(prof)
     print(f"Profilo di default {p.default_profile}")
-    while(True):
+    while (True):
         print("Selezionare il profilo di cui vedere i dettagli, -1 per tornare al menu precedente:")
         input1 = input()
         if input1 == "-1":
@@ -201,7 +201,7 @@ def profiles_list():
         input1 = int(input1)
         profiles = p.profiles
         filtered = list(filter(lambda profile: profile_filter_by_id(profile, input1), profiles))
-        if len(filtered)>0:
+        if len(filtered) > 0:
             print_profile(filtered[0])
         else:
             print(f"Profilo con id {input1} non trovato")
@@ -212,8 +212,8 @@ def profile_filter_by_id(profile: SDCHProfile, id: int) -> bool:
 
 
 def save_to_file():
-    default_profiles_folder = os.getenv("PROFILES_PATH",default="./profiles")
-    default_profile_files = os.getenv("DEFAULT_PROFILE",default="profiles.latest.json")
+    default_profiles_folder = os.getenv("PROFILES_PATH", default="./profiles")
+    default_profile_files = os.getenv("DEFAULT_PROFILE", default="profiles.latest.json")
     path = Path(os.path.join(default_profiles_folder, default_profile_files))
     absolute_output_file = str(path.absolute())
     now = datetime.now()
@@ -228,6 +228,31 @@ def save_to_file():
         f.write(output)
 
 
+def switch_profile_status(profile: SDCHProfile) -> SDCHProfile:
+    profile.active = not profile.active
+    return profile
+
+
+def switch_profiles_status():
+    global profiles
+    print(f"Il profilo di default attuale è {profiles.default_profile}")
+    for prof in profiles.profiles:
+        print_profile_names(prof)
+
+    print("Seleziona tutti i profili di cui cambiare lo stato di attivazione (usa , per separare i diversi profili).")
+    print("Inserisci -1 per annullare")
+    input1 = input()
+    selections = [a.strip() for a in input1.split(sep=",")]
+    if "-1" in selections:
+        return
+    else:
+        profiles.profiles = [switch_profile_status(x) if str(x.id) in selections else x for x in profiles.profiles]
+
+    print(f"Il profilo di default attuale è {profiles.default_profile}")
+    for prof in profiles.profiles:
+        print_profile_names(prof)
+
+
 def main():
     parse_json(profile_url=url_profile)
     while (True):
@@ -236,18 +261,21 @@ def main():
         print("2) Aggiungi un nuovo profilo")
         print("3) Modifica profilo esistente")
         print("4) Seleziona profilo default")
+        print("5) Cambia status profili (attivo/disattivo)")
         print("s) Salva in un nuovo profilo di default")
         print("e) Salva in un nuovo profilo di default ed esci")
         print("q) Esci")
         c = getch()
         if c == '1':
             profiles_list()
-        elif c =='2':
+        elif c == '2':
             add_profile()
-        elif c =='3':
+        elif c == '3':
             edit_profile()
-        elif c =='4':
+        elif c == '4':
             select_default_profile()
+        elif c == '5':
+            switch_profiles_status()
         elif c == 's':
             save_to_file()
         elif c == 'e':
@@ -272,9 +300,8 @@ def parse_json(profile_url, force_reload=False) -> SDCHProfiles:
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     load_dotenv()
-    default_profiles_folder = os.getenv("PROFILES_PATH",default="./profiles")
-    default_profile_files = os.getenv("DEFAULT_PROFILE",default="profiles.latest.json")
+    default_profiles_folder = os.getenv("PROFILES_PATH", default="./profiles")
+    default_profile_files = os.getenv("DEFAULT_PROFILE", default="profiles.latest.json")
     path = Path(os.path.join(default_profiles_folder, default_profile_files))
     url_profile = file_path_to_url(path)
     main()
-
