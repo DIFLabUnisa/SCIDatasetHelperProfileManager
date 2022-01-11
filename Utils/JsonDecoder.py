@@ -9,11 +9,9 @@ def parse_profiles(data: dict) -> SDCHProfiles:
     sdch_profile = SDCHProfiles(default_profile=default_profile, profiles=[])
 
     for p in profiles:
-        profile = SDCHProfile()
+        profile = SDCHProfile(camera_types=[], output_formats=[])
         profile.id = p["id"]
         profile.name = p["name"]
-        profile.output_formats = []
-        profile.camera_types = []
         profile.positions = get_camera_positions_from_string(p["positions"])
         output_formats = p["output_formats"]
         for o in output_formats:

@@ -1,12 +1,17 @@
 import json
+import posixpath
 import urllib.request
 from pprint import pprint
-from Utils import parse_profiles, getch
+from Utils import parse_profiles, getch, file_path_to_url, EnhancedJSONEncoder, sdchprofiles_to_dict
 from Models import SDCHProfiles, SDCHProfile, CameraPositions, CameraTypes, OutputFormats
 from sys import stdin
+from dotenv import load_dotenv
+from pathlib import Path
+import os
+import shutil
+from datetime import datetime
 
-# url_profile = "https://ifaselab.di.unisa.it/profiles/profiles.latest.json"
-url_profile = "//Users/bruand/PycharmProjects/SCIHelperProfile/profiles.latest.json"
+url_profile = ""
 max_id = -1
 profiles: SDCHProfiles = SDCHProfiles(default_profile=-1, profiles=[])
 
@@ -110,9 +115,7 @@ def add_or_edit_profile(original_profile: SDCHProfile|None) -> SDCHProfile:
 
 
 def print_profile_names(p: SDCHProfile):
-    print(f"ID:\t {p.id}")
-    print(f"Nome:\t {p.name}")
-    print(f"********")
+    print(f"** ID: {p.id} - Nome: {p.name} **")
 
 
 def print_profile(p: SDCHProfile):
@@ -208,6 +211,23 @@ def profile_filter_by_id(profile: SDCHProfile, id: int) -> bool:
     return profile.id == id
 
 
+def save_to_file():
+    default_profiles_folder = os.getenv("PROFILES_PATH",default="./profiles")
+    default_profile_files = os.getenv("DEFAULT_PROFILE",default="profiles.latest.json")
+    path = Path(os.path.join(default_profiles_folder, default_profile_files))
+    absolute_output_file = str(path.absolute())
+    now = datetime.now()
+    cur_time = now.strftime("%Y%m%d_%H%M%S")
+    path = Path(os.path.join(default_profiles_folder, f"profiles.{cur_time}.json"))
+    absolute_old_file_path = str(path.absolute())
+    shutil.move(absolute_output_file, absolute_old_file_path)
+    profiles_as_dict = sdchprofiles_to_dict(profiles)
+    output = json.dumps(profiles_as_dict, indent=4, sort_keys=False)
+    # print(output)
+    with open(absolute_output_file, "w+") as f:
+        f.write(output)
+
+
 def main():
     parse_json(profile_url=url_profile)
     while (True):
@@ -216,6 +236,8 @@ def main():
         print("2) Aggiungi un nuovo profilo")
         print("3) Modifica profilo esistente")
         print("4) Seleziona profilo default")
+        print("s) Salva in un nuovo profilo di default")
+        print("e) Salva in un nuovo profilo di default ed esci")
         print("q) Esci")
         c = getch()
         if c == '1':
@@ -226,6 +248,11 @@ def main():
             edit_profile()
         elif c =='4':
             select_default_profile()
+        elif c == 's':
+            save_to_file()
+        elif c == 'e':
+            save_to_file()
+            exit(0)
         elif c == 'q':
             exit(0)
         else:
@@ -244,7 +271,10 @@ def parse_json(profile_url, force_reload=False) -> SDCHProfiles:
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    load_dotenv()
+    default_profiles_folder = os.getenv("PROFILES_PATH",default="./profiles")
+    default_profile_files = os.getenv("DEFAULT_PROFILE",default="profiles.latest.json")
+    path = Path(os.path.join(default_profiles_folder, default_profile_files))
+    url_profile = file_path_to_url(path)
     main()
-    # parse_json('https://ifaselab.di.unisa.it/profiles/profiles.latest.json')
-    # parse_json('file:///Users/bruand/PycharmProjects/SCIHelperProfile/profiles.latest.json')
 

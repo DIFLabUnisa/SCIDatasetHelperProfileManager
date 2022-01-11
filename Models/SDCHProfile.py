@@ -26,12 +26,12 @@ class OutputFormats(enum.Enum):
 
 @dataclass
 class SDCHProfile:
+    camera_types: [CameraTypes]
+    output_formats: [OutputFormats]
     id: int = -1
     name: str = ""
     enrollment: int = -1
     training: int = -1
     positions: CameraPositions = CameraPositions.Unspecified
-    camera_types: [CameraTypes] = ()
     description: Optional[str] = None
-    output_formats: [OutputFormats] = ()
     active: bool = True
