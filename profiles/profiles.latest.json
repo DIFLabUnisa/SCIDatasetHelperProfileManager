@@ -1,0 +1,161 @@
+{
+  "default_profile" : 2,
+  "profiles" : [
+    {
+      "output_formats" : [
+        "jpeg",
+        "raw"
+      ],
+      "active" : true,
+      "camera_types" : [
+        "wide",
+        "ultra-wide",
+        "telephoto"
+      ],
+      "id" : 0,
+      "training" : 200,
+      "positions" : "front-cameras",
+      "enrollment" : 100,
+      "description" : "Tutte le camere frontali dello smartphone possono essere scelte. L'output è sia in formato JPEG che RAW",
+      "name" : "Camere frontali"
+    },
+    {
+      "output_formats" : [
+        "jpeg",
+        "raw"
+      ],
+      "active" : true,
+      "camera_types" : [
+        "wide",
+        "ultra-wide",
+        "telephoto"
+      ],
+      "id" : 1,
+      "training" : 200,
+      "positions" : "back-cameras",
+      "enrollment" : 100,
+      "description" : "Tutte le camere posteriori dello smartphone possono essere scelte. L'output è sia in formato JPEG che RAW",
+      "name" : "Camere posteriori"
+    },
+    {
+      "output_formats" : [
+        "jpeg",
+        "raw"
+      ],
+      "active" : true,
+      "camera_types" : [
+        "wide",
+        "ultra-wide",
+        "telephoto"
+      ],
+      "id" : 2,
+      "training" : 200,
+      "positions" : "unspecified-cameras",
+      "enrollment" : 100,
+      "description" : "Tutte le camere dello smartphone possono essere scelte. L'output è sia in formato JPEG che RAW",
+      "name" : "Tutte le camere"
+    },
+    {
+      "output_formats" : [
+        "jpeg"
+      ],
+      "active" : true,
+      "camera_types" : [
+        "wide",
+        "ultra-wide",
+        "telephoto"
+      ],
+      "id" : 3,
+      "training" : 200,
+      "positions" : "front-cameras",
+      "enrollment" : 100,
+      "description" : "Tutte le camere frontali dello smartphone possono essere scelte. L'output è solo in formato JPEG",
+      "name" : "Camere frontali solo JPEG"
+    },
+    {
+      "output_formats" : [
+        "jpeg"
+      ],
+      "active" : true,
+      "camera_types" : [
+        "wide",
+        "ultra-wide",
+        "telephoto"
+      ],
+      "id" : 4,
+      "training" : 200,
+      "positions" : "back-cameras",
+      "enrollment" : 100,
+      "description" : "Tutte le camere posteriori dello smartphone possono essere scelte. L'output è solo in formato JPEG",
+      "name" : "Camere posteriori solo JPEG"
+    },
+    {
+      "output_formats" : [
+        "jpeg"
+      ],
+      "active" : true,
+      "camera_types" : [
+        "wide",
+        "ultra-wide",
+        "telephoto"
+      ],
+      "id" : 5,
+      "training" : 200,
+      "positions" : "unspecified-cameras",
+      "enrollment" : 100,
+      "description" : "Tutte le camere dello smartphone possono essere scelte. L'output è solo in formato JPEG",
+      "name" : "Tutte le camere solo JPEG"
+    },
+    {
+      "output_formats" : [
+        "raw"
+      ],
+      "active" : true,
+      "camera_types" : [
+        "wide",
+        "ultra-wide",
+        "telephoto"
+      ],
+      "id" : 6,
+      "training" : 200,
+      "positions" : "front-cameras",
+      "enrollment" : 100,
+      "description" : "Tutte le camere frontali dello smartphone possono essere scelte. L'output è solo in formato RAW",
+      "name" : "Camere frontali solo RAW"
+    },
+    {
+      "output_formats" : [
+        "raw"
+      ],
+      "active" : true,
+      "camera_types" : [
+        "wide",
+        "ultra-wide",
+        "telephoto"
+      ],
+      "id" : 7,
+      "training" : 200,
+      "positions" : "back-cameras",
+      "enrollment" : 100,
+      "description" : "Tutte le camere posteriori dello smartphone possono essere scelte. L'output è solo in formato RAW",
+      "name" : "Camere posteriori solo RAW"
+    },
+    {
+      "output_formats" : [
+        "raw"
+      ],
+      "active" : true,
+      "camera_types" : [
+        "wide",
+        "ultra-wide",
+        "telephoto"
+      ],
+      "id" : 8,
+      "training" : 200,
+      "positions" : "unspecified-cameras",
+      "enrollment" : 100,
+      "description" : "Tutte le camere dello smartphone possono essere scelte. L'output è solo in formato RAW",
+      "name" : "Tutte le camere solo RAW"
+    }
+  ]
+}
